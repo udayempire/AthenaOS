@@ -13,7 +13,7 @@ export const load = ({ url }) => {
       locale: "en_US",
       title: "Desktop",
       description: DESCRIPTION,
-      siteName: "desktop.kennyhui.dev",
+      siteName: "athenafoss.com",
       images: [
         {
           url: "https://desktop.kennyhui.dev/og/index.png",
