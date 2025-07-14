@@ -23,9 +23,9 @@ export const systemMenu = new MenuBarItem("system", "", [
   new MenuItem("System Settings...", () => {
     applications.find((app) => app.id === "dev.kennyhui.settings")?.open();
   }),
-  new MenuItem("Debug", () => {
-    applications.find((app) => app.id === "dev.kennyhui.debug")?.open();
-  }),
+  // new MenuItem("Debug", () => {
+  //   applications.find((app) => app.id === "dev.kennyhui.debug")?.open();
+  // }),
 ]);
 
 export const systemActiveMenu = new MenuBarItem("system-active", "AthenaFOSS", []);

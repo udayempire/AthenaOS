@@ -3,6 +3,8 @@
   import dayjs from "dayjs";
   import { onMount } from "svelte";
   import TablerCircleFilled from "~icons/tabler/circle-filled";
+  import TablerSun from "~icons/tabler/sun";
+  import TablerMoon from "~icons/tabler/moon";
   import { activeWindow } from "../window/windows.svelte";
   import MenuBarItem from "./menu-bar-item.svelte";
   import {
@@ -18,6 +20,7 @@
   import ControlCenter from "../control-center/control-center.svelte";
   import MenuBarButton from "./menu-bar-button.svelte";
   import { fade } from "svelte/transition";
+  import { theme, parsedTheme } from "$lib/theme";
 
   let time: string = $state("");
 
@@ -114,6 +117,19 @@
     {/each}
   {/if}
   <div class="flex-1"></div>
+  <MenuBarButton
+    onclick={() => {
+      $theme = $theme === 'light' ? 'dark' : 'light';
+    }}
+  >
+    <span class="text-[11px]">
+      {#if $parsedTheme === 'dark'}
+        <TablerSun />
+      {:else}
+        <TablerMoon />
+      {/if}
+    </span>
+  </MenuBarButton>
   <MenuBarButton
     controls="control-center"
     bind:active={controlCenter.open}
