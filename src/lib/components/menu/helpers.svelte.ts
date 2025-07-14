@@ -28,11 +28,7 @@ export const systemMenu = new MenuBarItem("system", "", [
   }),
 ]);
 
-export const systemActiveMenu = new MenuBarItem("system-active", "AthenaFOSS", [
-  new MenuItem("Visit kennyhui.dev...", () => {
-    window.open("https://kennyhui.dev/", "_blank");
-  }),
-]);
+export const systemActiveMenu = new MenuBarItem("system-active", "AthenaFOSS", []);
 
 export const systemMenuBarItems = [];
 

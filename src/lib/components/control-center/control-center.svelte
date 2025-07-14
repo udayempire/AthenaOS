@@ -30,7 +30,7 @@
   class="bg-glass fixed right-0 m-1.5 grid w-80 cursor-default grid-cols-4 gap-2.5 rounded-[17.5px] p-2.5 shadow-lg"
 >
   <div class="bg-control col-span-2 col-start-1 flex h-33 flex-col justify-center gap-2 pl-3">
-    <ControlCenterToggle primary="Wi-Fi" secondary="kennyhui.dev" disabled>
+    <ControlCenterToggle primary="Wi-Fi" secondary="localhost" disabled>
       <HeroiconsWifi16Solid />
     </ControlCenterToggle>
     <ControlCenterToggle primary="Bluetooth" secondary="On">

@@ -13,7 +13,12 @@
   });
 </script>
 
-<canvas id="gradient-canvas"></canvas>
+<div class="relative h-full w-full">
+  <canvas id="gradient-canvas"></canvas>
+  <div class="absolute inset-0 flex items-center justify-center mix-blend-overlay">
+    <p class="text-[5vw] font-bold text-white select-none">BUILD BUILD BUILD</p>
+  </div>
+</div>
 
 <style>
   #gradient-canvas {

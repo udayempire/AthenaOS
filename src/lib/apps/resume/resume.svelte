@@ -5,31 +5,41 @@
   import { modifiers } from "$lib/meta.svelte";
   import ResumeRole from "./resume-role.svelte";
   import ResumeSection from "./resume-section.svelte";
+  import TablerUser from "~icons/tabler/user";
 </script>
 
 <WindowContent>
-  <h2 class="text-3xl font-bold">AthenaFOSS</h2>
-  <div class="mt-5 flex items-center gap-1">
-    <a
-      class="btn btn-accent"
-      href="https://kennyhui.dev/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      View Projects
-    </a>
-    <a class="btn" href="https://kennyhui.dev/resume.pdf" target="_blank" rel="noopener noreferrer">
-      Full Resume
-    </a>
-  </div>
-  <div class="mt-5">
-    <p class="text-base-content/80">Try some of my games in Launchpad</p>
-    <div class="mt-2 flex items-center gap-5">
-      <AppIcon src={query("icons/launchpad.png").default} size="sm" />
-      <p>or</p>
-      <p class="text-xl">{modifiers.command} L</p>
+  <header class="mb-6 border-b pb-4">
+    <h1 class="text-2xl font-bold flex items-center gap-2">
+      <TablerUser class="text-primary" />
+      AthenaFOSS
+    </h1>
+    <p class="text-sm text-muted-foreground mt-1">Professional Experience & Skills</p>
+  </header>
+  <div class="flex-1 overflow-y-auto">
+    <div class="mb-6 flex items-center gap-2">
+      <a
+        class="btn btn-accent"
+        href="https://kennyhui.dev/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View Projects
+      </a>
+      <a class="btn" href="https://kennyhui.dev/resume.pdf" target="_blank" rel="noopener noreferrer">
+        Full Resume
+      </a>
     </div>
-  </div>
+    <div class="mb-6">
+      <p class="text-base-content/80 mb-2">Try some of my games in Launchpad</p>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center justify-center">
+          <AppIcon src={query("icons/launchpad.png").default} size="sm" />
+        </div>
+        <p class="text-sm">or</p>
+        <p class="text-sm font-medium bg-muted px-2 py-1 rounded">{modifiers.command} L</p>
+      </div>
+    </div>
   <ResumeSection title="Experience">
     <ResumeRole title="Freelance Frontend Developer" date="Jan 2024 - Jun 2024">
       <ul class="text-base-content/75 list-disc pl-6 text-xs">
@@ -56,4 +66,5 @@
       <li><b>Developer Tools</b>: VSCode, Git, Docker, Oracle Cloud</li>
     </ul>
   </ResumeSection>
+  </div>
 </WindowContent>

@@ -2,7 +2,7 @@ import type { MetaTagsProps } from "svelte-meta-tags";
 
 const DESCRIPTION = "Web-based desktop environment.";
 
-export const load = ({ url }) => {
+export const load = ({ url }: { url: URL }) => {
   const baseMetaTags = Object.freeze({
     title: "Desktop",
     description: DESCRIPTION,

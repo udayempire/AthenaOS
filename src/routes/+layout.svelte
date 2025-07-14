@@ -48,14 +48,7 @@
   </div>
   {@render children()}
   <main class="fixed top-8 right-0 bottom-18 left-0 overflow-hidden">
-    <WindowManager />
-    <div class="absolute inset-0 hero mix-blend-overlay pointer-events-none">
-      <div class="hero-content text-center">
-        <div>
-          <h1 class="mb-2 text-5xl font-black whitespace-nowrap">BUILD BUILD BUILD</h1>
-        </div>
-      </div>
-    </div>    
+    <WindowManager /> 
   </main>
   <MenuBar />
   <Dock />

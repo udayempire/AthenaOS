@@ -1,10 +1,11 @@
 <script lang="ts">
   import AppIcon from "$lib/components/app/app-icon.svelte";
   import { query } from "$lib/images";
-  import { version } from "$lib/meta.svelte";
+  // import { version } from "$lib/meta.svelte";
   import dayjs from "dayjs";
   import SimpleIconsGithub from "~icons/simple-icons/github";
   import SimpleIconsLinkedin from "~icons/simple-icons/linkedin";
+  import SimpleIconsX from "~icons/simple-icons/x";
   import FormGroup from "$lib/components/ui/form-group.svelte";
   import FormRow from "$lib/components/ui/form-row.svelte";
 </script>
@@ -14,20 +15,21 @@
     <AppIcon src={query("icons/desktop.png").default} alt="Desktop icon" size="lg" />
   </section>
   <section class="mb-2">
-    <p class="text-2xl font-bold">AthenaFOSS's Desktop</p>
-    <p class="text-base-content/30">
-      Portfolio, {dayjs().format("MMMM YYYY")}
-    </p>
+    <p class="mt-1 font-mono">while(true) &#123; build(); &#125;</p>
+    <p class="text-2xl font-bold">AthenaFOSS</p>
+    <!-- <p class="text-base-content/30">
+      {dayjs().format("MMMM YYYY")}
+    </p> -->
   </section>
   <FormGroup>
     <FormRow label="Email">
       <span class="text-base-content/50 px-1">
-        <a href="mailto:hello@kennyhui.dev">hello@kennyhui.dev</a>
+        <a href="mailto:onboarding@athenafoss.com"> onboarding@athenafoss.com </a>
       </span>
     </FormRow>
-    <FormRow label="Version">
+    <FormRow label="Spartans">
       <span class="text-base-content/50 px-1">
-        <p>{version}</p>
+        <p>195</p>
       </span>
     </FormRow>
   </FormGroup>
@@ -35,28 +37,25 @@
     <a
       data-nodrag
       class="btn"
-      aria-label="LinkedIn"
-      href="https://www.linkedin.com/in/k-hui/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <SimpleIconsLinkedin></SimpleIconsLinkedin>
-      linkedin.com/in/k-hui
-    </a>
-    <a
-      data-nodrag
-      class="btn"
       aria-label="GitHub"
-      href="https://github.com/khui0"
+      href="https://github.com/AthenaFOSS"
       target="_blank"
       rel="noopener noreferrer"
     >
       <SimpleIconsGithub></SimpleIconsGithub>
-      github.com/khui0
+    </a>
+    <a
+      data-nodrag
+      class="btn"
+      aria-label="X"
+      href="https://x.com/AthenaF0SS"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <SimpleIconsX></SimpleIconsX>
     </a>
   </section>
   <section class="text-base-content/30 text-center text-[11px] leading-tight">
-    <p>&copy; 2025 AthenaFOSS</p>
-    <p>All Rights Reserved.</p>
+    <p>&copy; 2024 AthenaFOSS</p>
   </section>
 </div>
