@@ -8,6 +8,7 @@ import Settings from "./apps/settings/settings.svelte";
 import { query } from "./images";
 import { launchpad } from "./meta.svelte";
 import HackerHouse from "./apps/hackerhouse/hackerhouse.svelte";
+import Terminal from "./apps/terminal/terminal.svelte";
 
 export const applications: App[] = $state([
   // new App("dev.kennyhui.resume", "Resume", query("icons/file.png"))
@@ -80,5 +81,9 @@ export const applications: App[] = $state([
     .setDefaultSize({
       x: 700,
       y: 500,
-    })
+    }),
+  new App("dev.kennyhui.terminal", "Terminal", query("icons/terminal.png"))
+    .setBody(Terminal)
+    .setDefaultSize({ x: 600, y: 400 })
+    .setMinSize({ x: 300, y: 200 }),
 ]);
