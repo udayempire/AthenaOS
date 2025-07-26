@@ -9,7 +9,11 @@ import VSCode from "./apps/vscode/vscode.svelte";
 import { query } from "./images";
 import { launchpad } from "./meta.svelte";
 import HackerHouse from "./apps/hackerhouse/hackerhouse.svelte";
+
 import Terminal from "./apps/terminal/terminal.svelte";
+
+import Folder from "./apps/files/finder.svelte"
+
 
 export const applications: App[] = $state([
   // new App("dev.kennyhui.resume", "Resume", query("icons/file.png"))
@@ -83,6 +87,7 @@ export const applications: App[] = $state([
       x: 700,
       y: 500,
     }),
+
   new App("dev.kennyhui.terminal", "Terminal", query("icons/terminal.png"))
     .setBody(Terminal)
     .setDefaultSize({ x: 600, y: 400 })
@@ -93,4 +98,22 @@ export const applications: App[] = $state([
     .setMinSize({ x: 600, y: 400 })
     .disableTitlebar()
     .setControlsSize("standard"),
+
+
+   new App("dev.kennyhui.finder", "Finder", query("icons/finder.png"))
+    .setBody(Folder)
+    .setDefaultSize({
+      x: 1400,
+      y: 700,
+    })
+    .setMinSize({
+      x: 700,
+      y: 500,
+    })
+    .disableTitlebar()
+    .setControlsSize("standard")
+    
+
+    
+
 ]);
