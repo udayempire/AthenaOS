@@ -11,7 +11,8 @@
   let inputEl: HTMLInputElement;
 
   function focusInput() {
-    inputEl?.focus();
+    // Use setTimeout to ensure the focus command executes after the current event cycle.
+    setTimeout(() => inputEl?.focus(), 0);
   }
 
   onMount(() => {
@@ -90,10 +91,10 @@
   -->
 <div
   class="flex h-full flex-col rounded bg-black p-4 font-mono text-green-400"
-  role="region"
   aria-label="Terminal"
 >
-  <div class="flex-1 overflow-y-auto" bind:this={terminalRef}>
+  <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
+  <div class="flex-1 overflow-y-auto" bind:this={terminalRef} on:click={focusInput}>
     {#each history as entry}
       <div><span class="text-blue-400">$</span> {entry.input}</div>
       {#if entry.output}
@@ -108,6 +109,7 @@
       class="ml-2 flex-1 border-none bg-transparent text-green-400 outline-none"
       bind:value={input}
       on:keydown={onKeydown}
+      data-autofocus
       autocomplete="off"
       spellcheck="false"
     />

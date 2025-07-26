@@ -73,6 +73,11 @@ function onpointerdown(e: PointerEvent) {
       focus(id);
       applyFocus();
 
+      const autofocusEl = parent.querySelector<HTMLElement>("[data-autofocus]");
+      if (autofocusEl) {
+        setTimeout(() => autofocusEl.focus(), 0);
+      }
+
       targetId = id;
     } else {
       console.error(parent, "does not define an id");
