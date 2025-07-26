@@ -35,6 +35,10 @@ const commands: Record<string, { description: string; handler: CommandHandler }>
     description: "Show command history",
     handler: (_args, history) => history.map((entry) => entry.input).join("\n"),
   },
+  exit: {
+    description: "Close the terminal",
+    handler: () => "__EXIT__",
+  },
   banner: {
     description: "Show welcome banner",
     handler: () => `

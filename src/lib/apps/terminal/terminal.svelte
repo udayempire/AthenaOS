@@ -1,5 +1,6 @@
 <script lang="ts">
   import { executeCommand } from "./terminal";
+  import { remove, windows, stackOrder } from "$lib/components/window/windows.svelte";
   import { onMount } from "svelte";
 
   type HistoryEntry = { input: string; output: string };
@@ -14,18 +15,55 @@
   }
 
   onMount(() => {
+    
+    // Execute banner command by default without showing it in history
+    const bannerOutput = executeCommand("banner", history);
+    // Add only the output to history without showing the command
+    if (bannerOutput) {
+      history = [...history, { input: "", output: bannerOutput }];
+    }
     focusInput();
   });
 
   function onEnter() {
     if (input.trim() === "") return;
-    const output = executeCommand(input, history);
-    if (input.trim() === "clear") {
-      history = [];
-      input = "";
-      return;
+
+    const commandToExecute = input.trim();
+    const output = executeCommand(commandToExecute, history);
+
+    if (output === "__EXIT__") {
+      // Find terminal windows in the windows array
+      const terminalWindows = windows.filter(
+        (w) =>
+          w.name === "Terminal" ||
+          w.id.includes("terminal") ||
+          w.id.includes("dev.kennyhui.terminal")
+      );
+
+      if (terminalWindows.length > 0) {
+        // Close the most recently active terminal window
+        const activeTerminalIds = terminalWindows
+          .map((w) => w.id)
+          .filter((id) => stackOrder.includes(id));
+
+        if (activeTerminalIds.length > 0) {
+          // Get the topmost (most recently active) terminal window
+          const topmostTerminalId = activeTerminalIds.sort(
+            (a, b) => stackOrder.indexOf(b) - stackOrder.indexOf(a)
+          )[0];
+
+          remove(topmostTerminalId);
+          return;
+        }
+      }
     }
-    history = [...history, { input, output }];
+
+    if (commandToExecute === "clear") {
+      history = [];
+    } else {
+      history = [...history, { input: commandToExecute, output }];
+    }
+
     input = "";
   }
 
@@ -54,7 +92,6 @@
   class="flex h-full flex-col rounded bg-black p-4 font-mono text-green-400"
   role="region"
   aria-label="Terminal"
-  on:click={focusInput}
 >
   <div class="flex-1 overflow-y-auto" bind:this={terminalRef}>
     {#each history as entry}
