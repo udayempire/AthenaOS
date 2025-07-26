@@ -1,6 +1,8 @@
 <script lang="ts">
   import { controlCenter, search } from "$lib/meta.svelte";
+  import { onMount } from "svelte";
   import HeroiconsArrowsPointingOut from "~icons/heroicons/arrows-pointing-out";
+  import HeroiconsArrowsPointingIn from "~icons/heroicons/arrows-pointing-in";
   import HeroiconsMagnifyingGlass from "~icons/heroicons/magnifying-glass";
   import HeroiconsMoon16Solid from "~icons/heroicons/moon-16-solid";
   import HeroiconsSignal16Solid from "~icons/heroicons/signal-16-solid";
@@ -10,6 +12,47 @@
   import TablerBluetooth from "~icons/tabler/bluetooth";
   import ControlCenterButton from "./control-center-button.svelte";
   import ControlCenterToggle from "./control-center-toggle.svelte";
+
+  let isFullscreen = false;
+
+  function updateFullscreenState() {
+    isFullscreen = !!document.fullscreenElement;
+  }
+
+  onMount(() => {
+    updateFullscreenState();
+    document.addEventListener('fullscreenchange', updateFullscreenState);
+    
+    return () => {
+      document.removeEventListener('fullscreenchange', updateFullscreenState);
+    };
+  });
+
+  function toggleFullscreen() {
+    controlCenter.open = false;
+    
+    try {
+      if (document.fullscreenElement) {
+        document.exitFullscreen()
+          .then(() => {
+            isFullscreen = false;
+          })
+          .catch(err => {
+            console.error('Error exiting fullscreen:', err);
+          });
+      } else {
+        document.documentElement.requestFullscreen()
+          .then(() => {
+            isFullscreen = true;
+          })
+          .catch(err => {
+            console.error('Error entering fullscreen:', err);
+          });
+      }
+    } catch (err) {
+      console.error('Fullscreen API error:', err);
+    }
+  }
 
   function onpointerdown(e: PointerEvent) {
     const target = e.target as HTMLElement;
@@ -57,13 +100,14 @@
         <HeroiconsMagnifyingGlass />
       </ControlCenterButton>
       <ControlCenterButton
-        label="Fullscreen"
-        onclick={() => {
-          controlCenter.open = false;
-          document.documentElement.requestFullscreen();
-        }}
+        label={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+        onclick={toggleFullscreen}
       >
-        <HeroiconsArrowsPointingOut />
+        {#if isFullscreen}
+          <HeroiconsArrowsPointingIn />
+        {:else}
+          <HeroiconsArrowsPointingOut />
+        {/if}
       </ControlCenterButton>
     </div>
   </div>
