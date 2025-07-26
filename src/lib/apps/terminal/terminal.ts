@@ -51,13 +51,29 @@ const commands: Record<string, { description: string; handler: CommandHandler }>
 Welcome to AthenaOS Terminal
 Type 'help' to see available commands.`,
   },
+  join: {
+    description: "Open invite link in a new tab",
+    handler: () => {
+      window.open("https://cosmic-tractor-712.notion.site/179c4091f4dc802495bcd3510df919ad", "_blank"); 
+      return "Opening invite link in new tab...";
+    },
+  },
 };
 
-export function executeCommand(cmd: string, history: { input: string; output: string }[]): string {
+export function executeCommand(
+  cmd: string,
+  history: { input: string; output: string }[]
+): string {
   const [command, ...args] = cmd.trim().split(/\s+/);
+  let output: string;
+
   if (commands[command]) {
-    return commands[command].handler(args, history);
+    output = commands[command].handler(args, history);
+  } else if (command === "") {
+    output = "";
+  } else {
+    output = `Command not found: ${command}`;
   }
-  if (command === "") return "";
-  return `Command not found: ${command}`;
+
+  return output;
 }
