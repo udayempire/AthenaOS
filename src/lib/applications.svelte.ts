@@ -5,6 +5,7 @@ import Debug from "./apps/debug/debug.svelte";
 import Iframe from "./apps/iframe/iframe.svelte";
 // import Resume from "./apps/resume/resume.svelte";
 import Settings from "./apps/settings/settings.svelte";
+import VSCode from "./apps/vscode/vscode.svelte";
 import { query } from "./images";
 import { launchpad } from "./meta.svelte";
 import HackerHouse from "./apps/hackerhouse/hackerhouse.svelte";
@@ -86,4 +87,10 @@ export const applications: App[] = $state([
     .setBody(Terminal)
     .setDefaultSize({ x: 600, y: 400 })
     .setMinSize({ x: 300, y: 200 }),
+  new App("dev.kennyhui.vscode", "VS Code", query("icons/vscode.png"))
+    .setBody(VSCode)
+    .setDefaultSize({ x: 900, y: 600 })
+    .setMinSize({ x: 600, y: 400 })
+    .disableTitlebar()
+    .setControlsSize("standard"),
 ]);
