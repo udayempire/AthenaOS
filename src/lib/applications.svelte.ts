@@ -100,6 +100,16 @@ export const applications: App[] = $state([
     .setControlsSize("standard"),
 
 
+    new App("github.link", "GitHub", query("icons/github.png"))
+    .setBody(() => {
+      window.open("https://github.com/AthenaFoss", "_blank");
+      return {
+        // Return a dummy element since we’re just opening a link
+        $destroy() {},
+        $set() {},
+      };
+    }),
+
    new App("dev.kennyhui.finder", "Finder", query("icons/finder.png"))
     .setBody(Folder)
     .setDefaultSize({
@@ -114,6 +124,6 @@ export const applications: App[] = $state([
     .setControlsSize("standard")
     
 
-    
+
 
 ]);
