@@ -19,6 +19,7 @@
     url: string;
     date: string;
     favorite: boolean;
+    folder: string;
   }
 
   let photos = $state<Photo[]>([]);
@@ -26,7 +27,7 @@
   let viewMode = $state<"grid" | "list">("grid");
   let searchQuery = $state("");
   let loading = $state(true);
-  let selectedTab = $state<"all" | "athena_hh" | "favorites" | "recent">("all");
+  let selectedTab = $state<"all" | "favorites" | "recent" | string>("all");
   let selectedPhoto = $state<Photo | null>(null);
   let showModal = $state(false);
 
@@ -39,6 +40,7 @@
           url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
           date: "2024-01-15",
           favorite: true,
+          folder: "athena_hh",
         },
         {
           id: "2",
@@ -46,6 +48,7 @@
           url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
           date: "2024-01-10",
           favorite: false,
+          folder: "athena_hh",
         },
         {
           id: "3",
@@ -53,6 +56,7 @@
           url: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=400&h=300&fit=crop",
           date: "2024-01-05",
           favorite: true,
+          folder: "vacation",
         },
         {
           id: "4",
@@ -60,6 +64,7 @@
           url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop",
           date: "2024-01-03",
           favorite: false,
+          folder: "nature",
         },
         {
           id: "5",
@@ -67,6 +72,7 @@
           url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=300&fit=crop",
           date: "2024-01-01",
           favorite: true,
+          folder: "vacation",
         },
         {
           id: "6",
@@ -74,10 +80,33 @@
           url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
           date: "2023-12-28",
           favorite: false,
+          folder: "nature",
+        },
+        {
+          id: "7",
+          title: "Office Building",
+          url: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop",
+          date: "2023-12-25",
+          favorite: true,
+          folder: "work",
+        },
+        {
+          id: "8",
+          title: "Family Portrait",
+          url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+          date: "2023-12-20",
+          favorite: true,
+          folder: "family",
         },
       ];
       loading = false;
     }, 1000);
+  });
+
+  // Get unique folders for dynamic folder creation
+  let folders = $derived(() => {
+    const folderSet = new Set(photos.map(p => p.folder));
+    return Array.from(folderSet).sort() as string[];
   });
 
   let filteredPhotos = $derived(() => {
@@ -87,6 +116,9 @@
       filtered = filtered.filter((p) => p.favorite);
     } else if (selectedTab === "recent") {
       filtered = filtered.slice(0, 3); // Show only recent 3
+    } else if (selectedTab !== "all") {
+      // Filter by specific folder
+      filtered = filtered.filter((p) => p.folder === selectedTab);
     }
 
     if (searchQuery) {
@@ -146,19 +178,23 @@
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-400">{photos.length}</span>
           </button>
-          <button
-            class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left transition-colors {selectedTab ===
-            'athena_hh'
-              ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
-              : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'}"
-            onclick={() => (selectedTab = "athena_hh")}
-          >
-            <div class="flex items-center gap-6">
-              <TablerPhoto class="h-5 w-5" />
-              <span class="text-sm font-medium">Athena HH</span>
-            </div>
-            <span class="text-xs text-gray-500 dark:text-gray-400">{photos.length}</span>
-          </button>
+
+          <!-- Dynamic Folder Buttons -->
+          {#each folders() as folder}
+            <button
+              class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left transition-colors {selectedTab ===
+              folder
+                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+                : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'}"
+              onclick={() => (selectedTab = folder)}
+            >
+              <div class="flex items-center gap-6">
+                <TablerFolder class="h-5 w-5" />
+                <span class="text-sm font-medium">{folder.charAt(0).toUpperCase() + folder.slice(1).replace('_', ' ')}</span>
+              </div>
+              <span class="text-xs text-gray-500 dark:text-gray-400">{photos.filter((p) => p.folder === folder).length}</span>
+            </button>
+          {/each}
 
           <button
             class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left transition-colors {selectedTab ===
