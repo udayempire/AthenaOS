@@ -12,7 +12,6 @@
   import TablerHeart from "~icons/tabler/heart";
   import TablerFolder from "~icons/tabler/folder";
   import TablerCalendar from "~icons/tabler/calendar";
-  import TablerTrash from "~icons/tabler/trash";
 
   interface Photo {
     id: string;
@@ -27,7 +26,9 @@
   let viewMode = $state<"grid" | "list">("grid");
   let searchQuery = $state("");
   let loading = $state(true);
-  let selectedTab = $state<"all" | "favorites" | "recent">("all");
+  let selectedTab = $state<"all" | "athena_hh" | "favorites" | "recent">("all");
+  let selectedPhoto = $state<Photo | null>(null);
+  let showModal = $state(false);
 
   onMount(() => {
     setTimeout(() => {
@@ -112,15 +113,24 @@
       photos = [...photos];
     }
   }
+
+  function openPhotoModal(photo: Photo) {
+    selectedPhoto = photo;
+    showModal = true;
+  }
+
+  function closePhotoModal() {
+    showModal = false;
+    selectedPhoto = null;
+  }
 </script>
 
 <WindowContent>
-  <div class="flex h-full bg-white dark:bg-gray-900">
+  <div class="flex h-full bg-black/20 backdrop-blur-md">
     <!-- Sidebar -->
-    <div class="w-64 border-r border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800">
+    <div class="w-64 border-r border-white/20 bg-white/30 backdrop-blur-[50px] shadow-lg rounded-r-xl dark:border-gray-300/20 dark:bg-black/30">
       <div class="p-8">
-        <h1 class="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">Photo</h1>
-
+        <h1 class="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">Photos</h1>
         <!-- Navigation -->
         <nav class="space-y-1">
           <button
@@ -130,7 +140,7 @@
               : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'}"
             onclick={() => (selectedTab = "all")}
           >
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-6">
               <TablerPhoto class="h-5 w-5" />
               <span class="text-sm font-medium">All Photos</span>
             </div>
@@ -138,14 +148,14 @@
           </button>
           <button
             class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left transition-colors {selectedTab ===
-            'all'
+            'athena_hh'
               ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
               : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'}"
-            onclick={() => (selectedTab = "all")}
+            onclick={() => (selectedTab = "athena_hh")}
           >
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-6">
               <TablerPhoto class="h-5 w-5" />
-              <span class="text-sm font-medium">Athena Hacker House</span>
+              <span class="text-sm font-medium">Athena HH</span>
             </div>
             <span class="text-xs text-gray-500 dark:text-gray-400">{photos.length}</span>
           </button>
@@ -157,7 +167,7 @@
               : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'}"
             onclick={() => (selectedTab = "favorites")}
           >
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-6">
               <TablerHeart class="h-5 w-5" />
               <span class="text-sm font-medium">Favorites</span>
             </div>
@@ -186,7 +196,7 @@
     <!-- Main Content -->
     <div class="flex flex-1 flex-col">
       <!-- Toolbar -->
-      <div class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+      <div class="border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-700 dark:bg-gray-900/80">
         <div class="flex items-center justify-between px-6 py-3">
           <!-- Left side -->
           <div class="flex items-center gap-2">
@@ -231,18 +241,7 @@
               <span class="text-sm text-gray-600 dark:text-gray-400"
                 >{selectedPhotos.size} selected</span
               >
-              <button
-                class="rounded-lg p-2 text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
-              >
-                <TablerTrash class="h-5 w-5" />
-              </button>
             {/if}
-            <button
-              class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-            >
-              <TablerPlus class="mr-1 inline h-4 w-4" />
-              Import
-            </button>
           </div>
         </div>
       </div>
@@ -276,9 +275,9 @@
               <div
                 role="button"
                 tabindex="0"
-                onclick={() => togglePhotoSelection(photo.id)}
+                onclick={() => openPhotoModal(photo)}
                 onkeydown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") togglePhotoSelection(photo.id);
+                  if (e.key === "Enter" || e.key === " ") openPhotoModal(photo);
                 }}
                 class={`group relative aspect-square cursor-pointer overflow-hidden rounded-lg transition-all duration-200 hover:shadow-lg ${
                   selectedPhotos.has(photo.id) ? "ring-2 ring-blue-500" : ""
@@ -340,9 +339,9 @@
                 role="button"
                 tabindex="0"
                 onkeydown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") togglePhotoSelection(photo.id);
+                  if (e.key === "Enter" || e.key === " ") openPhotoModal(photo);
                 }}
-                onclick={() => togglePhotoSelection(photo.id)}
+                onclick={() => openPhotoModal(photo)}
                 class={`flex cursor-pointer items-center gap-4 rounded-lg p-4 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 ${
                   selectedPhotos.has(photo.id) ? "bg-blue-50 dark:bg-blue-900/20" : ""
                 }`}
@@ -396,4 +395,67 @@
       </div>
     </div>
   </div>
+
+  <!-- Photo Modal -->
+  {#if showModal && selectedPhoto}
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      tabindex="-1"
+    >
+      <!-- Backdrop button for closing -->
+      <button
+        class="absolute inset-0 z-10"
+        onclick={closePhotoModal}
+        onkeydown={(e) => {
+          if (e.key === "Escape") closePhotoModal();
+        }}
+        aria-label="Close photo modal"
+      ></button>
+      
+      <div
+        class="relative z-20 max-h-[110vh] max-w-[110vw] overflow-hidden rounded-2xl bg-white shadow-2xl dark:bg-gray-900"
+        role="document"
+      >
+        <!-- Close button -->
+        <button
+          onclick={closePhotoModal}
+          class="absolute right-4 top-4 z-10 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70"
+          aria-label="Close photo modal"
+        >
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- Photo -->
+        <img
+          src={selectedPhoto.url}
+          alt={selectedPhoto.title}
+          class="h-auto w-full object-contain"
+          loading="lazy"
+        />
+
+        <!-- Photo info -->
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+          <h3 class="text-xl font-semibold text-white">{selectedPhoto.title}</h3>
+          <p class="text-sm text-white/80">{new Date(selectedPhoto.date).toLocaleDateString()}</p>
+          
+          <!-- Favorite button -->
+                      <button
+              onclick={(e) => {
+                e.stopPropagation();
+                if (selectedPhoto) toggleFavorite(selectedPhoto.id);
+              }}
+              class="mt-3 rounded-full bg-white/20 p-2 backdrop-blur-sm transition-colors hover:bg-white/30"
+            >
+              <TablerHeart
+                class={`h-5 w-5 ${selectedPhoto?.favorite ? "fill-red-500 text-red-500" : "text-white"}`}
+              />
+            </button>
+        </div>
+      </div>
+    </div>
+  {/if}
 </WindowContent>

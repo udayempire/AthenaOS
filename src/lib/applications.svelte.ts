@@ -98,5 +98,5 @@ export const applications: App[] = $state([
     .setBody(Photos)
     .setDefaultSize({ x: 1200, y: 800 })
     .setMinSize({ x: 400, y: 300 })
-    .setControlsSize("standard"),
+    // .setControlsSize("standard")
 ]);
