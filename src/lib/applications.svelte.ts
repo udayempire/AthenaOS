@@ -10,7 +10,11 @@ import Photos from "./apps/photos/photos.svelte";
 import { query } from "./images";
 import { launchpad } from "./meta.svelte";
 import HackerHouse from "./apps/hackerhouse/hackerhouse.svelte";
+
 import Terminal from "./apps/terminal/terminal.svelte";
+
+import Folder from "./apps/files/finder.svelte"
+
 
 export const applications: App[] = $state([
   // new App("dev.kennyhui.resume", "Resume", query("icons/file.png"))
@@ -84,6 +88,7 @@ export const applications: App[] = $state([
       x: 700,
       y: 500,
     }),
+
   new App("dev.kennyhui.terminal", "Terminal", query("icons/terminal.png"))
     .setBody(Terminal)
     .setDefaultSize({ x: 600, y: 400 })
@@ -97,6 +102,31 @@ export const applications: App[] = $state([
   new App("dev.kennyhui.photos", "Photos", query("icons/photos.png"))
     .setBody(Photos)
     .setDefaultSize({ x: 1200, y: 800 })
-    .setMinSize({ x: 400, y: 300 })
-    // .setControlsSize("standard")
+    .setMinSize({ x: 400, y: 300 }),
+    new App("github.link", "GitHub", query("icons/github.png"))
+    .setBody(() => {
+      window.open("https://github.com/AthenaFoss", "_blank");
+      return {
+        // Return a dummy element since we’re just opening a link
+        $destroy() {},
+        $set() {},
+      };
+    }),
+
+   new App("dev.kennyhui.finder", "Finder", query("icons/finder.png"))
+    .setBody(Folder)
+    .setDefaultSize({
+      x: 1400,
+      y: 700,
+    })
+    .setMinSize({
+      x: 700,
+      y: 500,
+    })
+    .disableTitlebar()
+    .setControlsSize("standard")
+    
+
+
+
 ]);
