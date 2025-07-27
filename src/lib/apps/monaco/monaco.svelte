@@ -37,8 +37,7 @@
 {#if dialogOpen}
   <WindowDialog>
     {#if app}
-      <AppIcon src={app.icon.default} />
-    {/if}
+      <AppIcon src={app.icon.default} appId={app.id} />    {/if}
     <p class="font-bold">Where do you want to save this file?</p>
     <p class="text-[11px]">Saving will overwrite any existing files present</p>
     <label class="grid grid-cols-[1fr_3fr] items-center gap-2">
