@@ -1,72 +1,95 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  
-  import Window from '$lib/components/window/window.svelte';
+  import { onMount } from 'svelte';
 
   
-  type MemberDetailsData = {
-    id: string;
-    name: string;
-    type: 'folder' | 'file';
-    icon: string;
-    color?: string;
-    github?: string;
-    level?: string;
-    description?: string;
-  };
+ let content = `Welcome to AthenaFOSS!
 
-  export let member: MemberDetailsData; 
-  export let windowId: string; 
-  export let position: { x: number; y: number } = { x: 50, y: 50 }; 
-  export let size: { x: number; y: number } = { x: 450, y: 350 };  
-  export let minSize: { x: number; y: number } = { x: 300, y: 150 }; 
+AthenaFOSS is not just a developer community — it's a movement.
+A collective of elite builders, open-source warriors, and curious minds who believe in shipping fast, learning endlessly, and building with purpose.
 
-  const dispatch = createEventDispatcher(); 
+Slogan: BUILD. BUILD. BUILD.
+
+Inside AthenaFOSS:
+- You don’t just code — you innovate.
+- You don’t just join — you belong.
+- Projects move fast. Ideas move faster.
+- Knowledge flows freely. So does caffeine ☕.
+
+Whether you're crafting the next-gen dev tools or rewriting what open-source can be, AthenaFOSS is where you thrive.
+
+Let’s build something legendary.`;
+  
 
   
-  function formatDetails(member: MemberDetailsData): string {
-    let details = `Member Details: ${member.name}\n`;
-    details += `-----------------------------------\n`;
-    details += `ID: ${member.id}\n`;
-    details += `Type: ${member.type === 'file' ? 'File' : 'Folder'}\n`;
-    if (member.level) {
-      details += `Level: ${member.level}\n`;
+  let line = 1;
+  
+  let col = 1;
+  
+  let textareaEl: HTMLTextAreaElement;
+
+  
+  function updateCursorPosition() {
+   
+    if (textareaEl) {
+      
+      const pos = textareaEl.selectionStart;
+      
+      const textUptoCursor = content.slice(0, pos);
+      
+      const lines = textUptoCursor.split('\n');
+      
+      line = lines.length;
+      
+      col = lines[lines.length - 1].length + 1;
     }
-    if (member.github) {
-      details += `GitHub: https://github.com/${member.github}\n`;
-    }
-    details += `\n`; 
-    if (member.description) {
-      details += `Description:\n${member.description}\n`;
-    } else {
-      details += `Description: No description provided.\n`;
-    }
-    details += `\n`; // Add a blank line
-    details += `Last Modified: ${new Date().toLocaleDateString()}\n`; // Dummy data
-    details += `Size: ${(Math.random() * 10).toFixed(2)} MB\n`; // Dummy data
-    return details;
   }
 
   
-  let content: string = formatDetails(member);
-
-  
+  onMount(() => {
+    updateCursorPosition();
+  });
 </script>
 
-<Window id={windowId} {position} {size} {minSize} title={`Notepad - ${member.name}.txt`}>
-  <div class="flex flex-col h-full w-full bg-gray-900 border border-gray-700 rounded-md overflow-hidden">
-    <textarea
-      class="flex-1 p-4 bg-gray-800 text-gray-200 font-mono text-sm resize-none focus:outline-none"
-      value={content}
-      readonly
-    ></textarea>
-
-    <div class="flex items-center justify-between p-2 bg-gray-700 text-gray-400 text-xs">
-      <span>Line: 1, Col: 1</span> <span>UTF-8</span>
-    </div>
+<div class="flex flex-col h-screen w-full mx-auto rounded-xl shadow-lg border border-gray-700 bg-[#1e1e1e] overflow-hidden font-inter">
+  
+  <div class="flex items-center justify-between bg-[#2c2c2c] text-gray-300 px-4 py-2 text-sm font-semibold rounded-t-xl">
+    
+    <span class="w-full text-center">Notepad.txt</span>
+    
+    <span class="opacity-50 ml-2">●</span>
   </div>
-</Window>
+
+  
+  <textarea
+    bind:this={textareaEl}    
+    bind:value={content}      
+    on:click={updateCursorPosition} 
+    on:keyup={updateCursorPosition} 
+    on:input={updateCursorPosition} 
+    class="flex-1 p-4 font-mono text-sm text-gray-100 bg-[#1e1e1e] resize-none focus:outline-none leading-relaxed
+           scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 rounded-b-xl"
+    spellcheck="false"        
+  ></textarea>
+
+  
+  <div class="flex items-center justify-between px-3 py-1 bg-[#2c2c2c] text-gray-400 text-xs border-t border-gray-700 rounded-b-xl">
+    <span>Line: {line}, Col: {col}</span>
+   
+    <span>UTF-8 | Plain Text</span>
+  </div>
+</div>
+
 
 <style>
- 
+  
+  textarea::-webkit-scrollbar {
+    width: 8px;
+  }
+  textarea::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+  }
+  textarea::-webkit-scrollbar-track {
+    background-color: #2c2c2c;
+  }
 </style>

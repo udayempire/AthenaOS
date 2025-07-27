@@ -13,6 +13,7 @@ import HackerHouse from "./apps/hackerhouse/hackerhouse.svelte";
 import Terminal from "./apps/terminal/terminal.svelte";
 
 import Folder from "./apps/files/finder.svelte"
+import Notepad from "./apps/Notepad/notepad.svelte"
 
 
 export const applications: App[] = $state([
@@ -119,6 +120,15 @@ export const applications: App[] = $state([
     .setMinSize({
       x: 700,
       y: 500,
+    })
+    .disableTitlebar()
+    .setControlsSize("standard"),
+
+  new App("dev.kennyhui.notepad", "Notepad", query("icons/Notepad.png"))
+    .setBody(Notepad)
+    .setDefaultSize({
+      x:1000,
+      y:700
     })
     .disableTitlebar()
     .setControlsSize("standard")
