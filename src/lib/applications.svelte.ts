@@ -1,11 +1,12 @@
 import { App, MenuBarItem, MenuItem, Shortcut } from "./core";
 import About from "./apps/about/about.svelte";
 import Browser from "./apps/browser/browser.svelte";
-import Debug from "./apps/debug/debug.svelte";
-import Iframe from "./apps/iframe/iframe.svelte";
+// import Debug from "./apps/debug/debug.svelte";
+// import Iframe from "./apps/iframe/iframe.svelte";
 // import Resume from "./apps/resume/resume.svelte";
 import Settings from "./apps/settings/settings.svelte";
 import VSCode from "./apps/vscode/vscode.svelte";
+import Photos from "./apps/photos/photos.svelte";
 import { query } from "./images";
 import { launchpad } from "./meta.svelte";
 import HackerHouse from "./apps/hackerhouse/hackerhouse.svelte";
@@ -99,8 +100,10 @@ export const applications: App[] = $state([
     .setMinSize({ x: 600, y: 400 })
     .disableTitlebar()
     .setControlsSize("standard"),
-
-
+  new App("dev.kennyhui.photos", "Photos", query("icons/photos.png"))
+    .setBody(Photos)
+    .setDefaultSize({ x: 1200, y: 800 })
+    .setMinSize({ x: 400, y: 300 }),
     new App("github.link", "GitHub", query("icons/github.png"))
     .setBody(() => {
       window.open("https://github.com/AthenaFoss", "_blank");
