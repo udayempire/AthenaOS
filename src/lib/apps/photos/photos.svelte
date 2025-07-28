@@ -158,7 +158,7 @@
 </script>
 
 <WindowContent>
-  <div class="flex h-full bg-black/20 backdrop-blur-md">
+  <div class="flex h-full bg-black/20 backdrop-blur-md "style="background: rgba(35, 35, 35, 0.1); backdrop-filter: blur(100px); border-color: rgba(255, 255, 255, 0.1); color: white;">
     <!-- Sidebar -->
     <div class="w-64 border-r border-white/20 bg-white/30 backdrop-blur-[50px] shadow-lg rounded-r-xl dark:border-gray-300/20 dark:bg-black/30">
       <div class="p-8">
