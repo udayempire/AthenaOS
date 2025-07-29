@@ -4,7 +4,7 @@
   import TablerCircleFilled from "~icons/tabler/circle-filled";
   import AppIcon from "../app/app-icon.svelte";
 
-  let { app }: { app: App } = $props();
+  let { app, scale = 1 }: { app: App; scale?: number } = $props();
 
   let open: boolean = $derived(app.instances() > 0);
   let previousOpen: boolean = $state(false);
