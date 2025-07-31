@@ -111,6 +111,15 @@ export const applications: App[] = $state([
         $set() { },
       };
     }),
+  new App("dev.kennyhui.x", "X", query("icons/x.png"))
+    .setBody(() => {
+      window.open("https://x.com/AthenaF0SS", "_blank");
+      return {
+        // Return a dummy element since we’re just opening a link
+        // $destroy() { },
+        // $set() { },
+      };
+    }),
 
   new App("dev.kennyhui.finder", "Finder", query("icons/finder.png"))
     .setBody(Folder)
