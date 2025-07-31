@@ -97,9 +97,7 @@ export const applications: App[] = $state([
   new App("dev.kennyhui.vscode", "VS Code", query("icons/vscode.png"))
     .setBody(VSCode)
     .setDefaultSize({ x: 900, y: 600 })
-    .setMinSize({ x: 600, y: 400 })
-    .disableTitlebar()
-    .setControlsSize("standard"),
+    .setMinSize({ x: 600, y: 400 }),
   new App("dev.kennyhui.photos", "Photos", query("icons/photos.png"))
     .setBody(Photos)
     .setDefaultSize({ x: 1200, y: 800 })
